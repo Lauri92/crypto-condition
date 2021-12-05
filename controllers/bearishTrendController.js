@@ -12,17 +12,16 @@ const getBearishTrend = async (req, res) => {
     if (daysInTheRequest < 0) {
       res.status(400).send('Invalid dates!');
     } else if (daysInTheRequest < 1) {
-      await handle1day(startDate.toString(), enddate.toString(), res);
+      await handle1day(startDate.toString(), enddate.toString());
     } else if (daysInTheRequest >= 1 && daysInTheRequest <= 89) {
-      const longestBearishTrend = await handle1to90Days(startDate, enddate,
-          res);
+      const longestBearishTrend = await handle1to90Days(startDate, enddate);
       res.status(200).json({
         message: 'This request contains 1-90 days',
         result: longestBearishTrend,
       });
     } else {
       const longestBearishTrend = await handleOver90Days(startDate.toString(),
-          enddate.toString(), res);
+          enddate.toString());
       res.status(200).
           json({
             message: 'This request contains over 90days',
