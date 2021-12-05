@@ -1,8 +1,10 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const currencyInfoController = require('../controllers/currencyInfoController');
+const bearishTrendController = require('../controllers/bearishTrendController');
+const tradingVolumeController = require('../controllers/tradingVolumeController');
 
-router.route('/').get(currencyInfoController.getBearishTrend);
+router.route('/bearishtrend').get(bearishTrendController.getBearishTrend);
+router.route('/tradingvolume').get(tradingVolumeController.getTradingVolume);
 
 module.exports = router;
