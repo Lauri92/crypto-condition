@@ -74,8 +74,8 @@ const handle1to90Days = async (startdate, enddate) => {
     } else {
 
       return {
-        bestDayToSell: '',
-        bestDayToBuy: '',
+        bestDayToSell: [],
+        bestDayToBuy: [],
       };
     }
   } catch (e) {
@@ -123,8 +123,8 @@ const handleOver90Days = async (startdate, enddate) => {
     } else {
 
       return {
-        bestDayToSell: '',
-        bestDayToBuy: '',
+        bestDayToSell: [],
+        bestDayToBuy: [],
       };
     }
 
