@@ -41,9 +41,6 @@ const handleOver90Days = async (startdate, enddate) => {
         `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${startdate}&to=${enddate}`);
 
     let pricesChart = info.data.prices;
-    //console.log(marketChart.prices.length);
-    //console.log(marketChart.total_volumes.length);
-    //console.log(marketChart.market_caps.length);
 
     let currentBearishTrend = 0;
     let longestBearishTrend = 0;
