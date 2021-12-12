@@ -1,3 +1,9 @@
+/*
+ * No NODE_ENV defined -> Start on localhost
+ * Else define logic how the application is launched; in this case Azure
+ * No PORT ENV required
+ */
+
 const checkEnvironment = (app) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   if (process.env.NODE_ENV === 'production') {
