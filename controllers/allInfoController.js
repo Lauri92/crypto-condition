@@ -17,11 +17,12 @@ const getAll = async (req, res) => {
     if (daysInTheRequest < 0) {
       res.status(400).send('Invalid dates!');
     } else if (daysInTheRequest <= 1) {
-      res.status(400).send('Less than a day');
+      res.status(400).send('A day or less is not a valid date range!');
     } else if (daysInTheRequest > 1 && daysInTheRequest < 90) {
       const priceValuesClosestToMidnight = await changeHoursToDays(pricesChart);
       const volumeValuesClosestToMidnight = await changeHoursToDays(
           volumesChart);
+      console.log(priceValuesClosestToMidnight.length);
       const allInfo = await getAllInfo(priceValuesClosestToMidnight,
           volumeValuesClosestToMidnight);
       res.status(200).json(allInfo);
@@ -36,6 +37,9 @@ const getAll = async (req, res) => {
 
 };
 
+/*
+ * Get datapoints closest to midnight for date ranges between 1-90 days
+ */
 const changeHoursToDays = async (hourlist) => {
   const valuesClosestToMidnight = [];
   while (hourlist.length > 0) {
@@ -47,6 +51,10 @@ const changeHoursToDays = async (hourlist) => {
   return valuesClosestToMidnight;
 };
 
+/*
+ * Call functions to get bearish trend, trading volume, best days to buy and sell
+ * and assign function return values as object property values
+ */
 const getAllInfo = async (pricesChart, volumesChart) => {
 
   try {
@@ -62,6 +70,9 @@ const getAllInfo = async (pricesChart, volumesChart) => {
   }
 };
 
+/*
+ * Get bearish trend
+ */
 const getBearishTrend = async (pricesChart) => {
 
   const currentBearishTrend = {
@@ -103,6 +114,9 @@ const getBearishTrend = async (pricesChart) => {
   return longestBearishTrend;
 };
 
+/*
+ * Get trading volume
+ */
 const getTradingVolume = async (volumesChart) => {
   const dayWithHighestVolume = volumesChart.sort((a, b) => {
     return b[1] - a[1];
@@ -114,6 +128,9 @@ const getTradingVolume = async (volumesChart) => {
   };
 };
 
+/*
+ * Use time machine to get best days to buy and sell
+ */
 const getBestBuyAndSellDays = async (pricesChart) => {
   let priceRisesAtAnyPoint = false;
 
@@ -133,6 +150,9 @@ const getBestBuyAndSellDays = async (pricesChart) => {
     };
   });
 
+  /*
+   * Return date values for best days if the requested date range is not 100% bearish as requested in the task
+   */
   if (priceRisesAtAnyPoint) {
     const dayWithHighestPrice = pricesChart.sort((a, b) => {
       return b[1] - a[1];
@@ -151,7 +171,9 @@ const getBestBuyAndSellDays = async (pricesChart) => {
     };
 
   } else {
-
+    /*
+     * Bearish trend for the whole date range
+     */
     return {
       bestDayToSell: {
         date: '',
