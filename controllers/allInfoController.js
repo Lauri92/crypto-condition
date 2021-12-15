@@ -176,12 +176,12 @@ const getBestBuyAndSellDays = async (pricesChart) => {
      */
     return {
       bestDayToSell: {
-        date: '',
-        price: '',
+        date: null,
+        price: null,
       },
       bestDayToBuy: {
-        date: '',
-        price: '',
+        date: null,
+        price: null,
       },
     };
   }
