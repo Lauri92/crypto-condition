@@ -224,4 +224,6 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
+.vscode
+
 # End of https://www.toptal.com/developers/gitignore/api/node,webstorm+all
