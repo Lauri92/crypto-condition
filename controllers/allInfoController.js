@@ -19,11 +19,15 @@ const getAll = async (req, res) => {
       res.status(400).send('Invalid dates!');
     } else if (daysInTheRequest <= 1) {
       res.status(400).send('A day or less is not a valid date range!');
-    } else if (daysInTheRequest > 1 && daysInTheRequest < 90 && startDate > 1527120000) {
+    } else if (daysInTheRequest > 1 && daysInTheRequest < 90 && startDate >
+        1527120000) {
       const priceValuesClosestToMidnight = await changeHoursToDays(pricesChart);
       const volumeValuesClosestToMidnight = await changeHoursToDays(
           volumesChart);
-      console.log(priceValuesClosestToMidnight.length);
+      console.log('volumevalues length: ',
+          volumeValuesClosestToMidnight.length);
+      console.log('volumevalues closest to midnight: ',
+          volumeValuesClosestToMidnight);
       const allInfo = await getAllInfo(priceValuesClosestToMidnight,
           volumeValuesClosestToMidnight);
       res.status(200).json(allInfo);
