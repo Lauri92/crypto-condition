@@ -5,16 +5,12 @@ const getAll = async (req, res) => {
   try {
     const startDate = Number(req.query.startdate);
     const endDate = Number(req.query.enddate) + 3600;
-
     const daysInTheRequest = (endDate - startDate) / 86400;
-    console.log('days in the request', daysInTheRequest);
 
     const info = await axios.get(
         `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${startDate}&to=${endDate}`);
     const pricesChart = info.data.prices;
     const volumesChart = info.data.total_volumes;
-    console.log('Chart:', volumesChart);
-    console.log('Length:', volumesChart.length);
     if (daysInTheRequest < 0) {
       res.status(400).send('Invalid dates!');
     } else if (daysInTheRequest <= 1) {
@@ -24,10 +20,10 @@ const getAll = async (req, res) => {
       const priceValuesClosestToMidnight = await changeHoursToDays(pricesChart);
       const volumeValuesClosestToMidnight = await changeHoursToDays(
           volumesChart);
-      console.log('volumevalues length: ',
-          volumeValuesClosestToMidnight.length);
-      console.log('volumevalues closest to midnight: ',
-          volumeValuesClosestToMidnight);
+      volumeValuesClosestToMidnight.forEach(value => {
+        console.log(new Date(value[0]).toUTCString());
+      });
+
       const allInfo = await getAllInfo(priceValuesClosestToMidnight,
           volumeValuesClosestToMidnight);
       res.status(200).json(allInfo);
@@ -46,14 +42,23 @@ const getAll = async (req, res) => {
  * Get datapoints closest to midnight for date ranges between 1-90 days
  */
 const changeHoursToDays = async (hourlist) => {
-  const valuesClosestToMidnight = [];
-  while (hourlist.length > 0) {
-    const hoursOfDay = hourlist.splice(0, 24).map((hour) => {
-      return hour;
+
+  const utcStrings = hourlist.map(hour => {
+    const hourUTC = new Date(hour[0]).toUTCString();
+    return hourUTC.substring(0, 16);
+  });
+  const uniqueUtcStrings = [...new Set(utcStrings)];
+
+  return uniqueUtcStrings.map(day => {
+    const hoursOfDay = [];
+    hourlist.forEach(hour => {
+      const hourUtcString = new Date(hour[0]).toUTCString();
+      if (hourUtcString.includes(day)) {
+        hoursOfDay.push(hour);
+      }
     });
-    valuesClosestToMidnight.push(hoursOfDay[0]);
-  }
-  return valuesClosestToMidnight;
+    return hoursOfDay[0];
+  });
 };
 
 /*
