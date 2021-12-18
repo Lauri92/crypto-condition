@@ -13,12 +13,13 @@ const getAll = async (req, res) => {
         `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${startDate}&to=${endDate}`);
     const pricesChart = info.data.prices;
     const volumesChart = info.data.total_volumes;
-
+    console.log('Chart:', pricesChart);
+    console.log('Length:', pricesChart.length);
     if (daysInTheRequest < 0) {
       res.status(400).send('Invalid dates!');
     } else if (daysInTheRequest <= 1) {
       res.status(400).send('A day or less is not a valid date range!');
-    } else if (daysInTheRequest > 1 && daysInTheRequest < 90) {
+    } else if (daysInTheRequest > 1 && daysInTheRequest < 90 && startDate > 1527120000) {
       const priceValuesClosestToMidnight = await changeHoursToDays(pricesChart);
       const volumeValuesClosestToMidnight = await changeHoursToDays(
           volumesChart);
