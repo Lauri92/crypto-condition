@@ -52,7 +52,7 @@ Example request to get data from January 1st 2020 to December 31st 2020:
 
 ## Notes
 
-* The server uses [Coin Gecko API](https://www.coingecko.com/en/api/documentation) as the source for all the data.
+* The API uses [Coin Gecko API](https://www.coingecko.com/en/api/documentation) as the source for all the data.
 * Errors in the API are taken into account, such as CG API not always returning hourly data for requests between 1 and
   90 days and not having hourly data before May 2018 or so despite documentation stating otherwise. 
 
