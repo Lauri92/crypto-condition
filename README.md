@@ -2,8 +2,8 @@
 
 ### Android App
 
-Check out the **Android application** which I built using this API
-here: [Crypto Condition Android](https://github.com/Lauri92/crypto-condition-android)
+Check out the **Android application** which I built using this
+API: [Crypto Condition Android](https://github.com/Lauri92/crypto-condition-android)
 
 ### General
 
@@ -38,7 +38,7 @@ The API is running in ``https://lauriari-crypto-condition.azurewebsites.net/``
     * Code 200
         * Json content with following information:
             * Bearish trend length, starting and ending day of the trend
-            * Highest volume and date it was recorded
+            * Highest trading volume and the date it was recorded
             * Best days to buy and sell within a date range, will be null if the trend is bearish for the whole date
               range
 * Fail response
